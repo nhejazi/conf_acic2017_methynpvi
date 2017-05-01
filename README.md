@@ -34,6 +34,6 @@ The poster to be entered in the ACIC competition is included as a git submodule
 
 ## License
 
-&copy; 2017 [Nima Hejazi](http://nimahejazi.org), Ivana Malenica, [Alan
-Hubbard](http://hubbard.berkeley.edu), & [Mark van der
+&copy; 2017 [Nima Hejazi](http://nimahejazi.org), Ivana Malenica, Andre Kurepa
+Waschka, [Alan E. Hubbard](http://hubbard.berkeley.edu), & [Mark J. van der
 Laan](https://www.stat.berkeley.edu/~laan/)
