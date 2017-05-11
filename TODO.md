@@ -1,6 +1,12 @@
-# 10 May 2017
+## 15 May 2017
 
-* make full data available for use with `r2weight` (Nima)
+* ...
+
+---
+
+## 10 May 2017
+
+* ~make full data available for use with `r2weight` (Nima)~
 * use David's `r2weight` to generate optimal IQ scores for use with the NPVI
 	parameter (Ivana)
 * run standard TMLE for the NPVI parameter on methylation data -- perhaps using
