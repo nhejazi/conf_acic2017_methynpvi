@@ -1,6 +1,6 @@
 library(bumphunter)
 
-clusterSites <- function(granges, ) {
+clusterSites <- function(granges) {
   if(dim(mcols(granges))[2] != 0) {
     mcols(granges) <- NULL
   }

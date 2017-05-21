@@ -4,6 +4,8 @@ methytmle_cont <- function(sumExp,
                            targetSites,
                            type = "exposure",
                            confid_level = 0.95,
+                           nullMode = "support",
+                           nullSupport = 0.20,
                            nullRange = c(-2, 2),
                            numberSites = NULL,
                            parallel = TRUE,
@@ -108,7 +110,7 @@ methytmle_cont <- function(sumExp,
      nearbySites <- as.data.frame(nearbySites[, -targetIndex, drop = FALSE])
 
      ## rarely, the only neighbor a target site has is itself. In these cases,
-     ## it is obviously not possible to define the TMLE for the parameter of
+     ## it is obviously not possible to define a TMLE for the parameter of
      ## interest (since W = NULL).
      if (dim(nearbySites)[2] == 0) {
        res <- rep(NA, 6)
@@ -118,16 +120,24 @@ methytmle_cont <- function(sumExp,
        nearbySites <- as.data.frame(nearbySites[cases_complete, ])
 
        # set values in the null range to 0 for the target site
-       nullCount <- sum(targetSite > nullRange[1] & targetSite < nullRange[2])
-       if (nullCount < round(0.2 * length(targetSite))) {
-         warning("fewer than 20% of target site meausrement in the null range.")
-         message(paste("NPVI estimation procedure unstable for site", site))
-         badSite <- TRUE
-       } else {
+       if (nullMode == "scientific") {
+         nullCount <- sum(targetSite > nullRange[1] & targetSite < nullRange[2])
+         if (nullCount < round(0.2 * length(targetSite))) {
+           warning("fewer than 20% of target sites in the null range.")
+           message(paste("NPVI estimation procedure unstable for site", site))
+           badSite <- TRUE
+         } else {
+           badSite <- FALSE
+         }
+         nullObs <- which(targetSite > nullRange[1] & targetSite < nullRange[2])
+         targetSite[nullObs] <- 0
+       } else if (nullMode == "support") {
+         nullObs <- which(abs(targetSite) < quantile(abs(targetSite),
+                                                         nullSupport))
+         targetSite[nullObs] <- 0
          badSite <- FALSE
        }
-       nullObs <- which(targetSite > nullRange[1] & targetSite < nullRange[2])
-       targetSite[nullObs] <- 0
+
 
        # set up CpG-specific matrix for use with TMLE-NPVI
        siteDataIn <- as.data.frame(cbind(y, targetSite, nearbySites))
