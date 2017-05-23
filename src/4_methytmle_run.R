@@ -22,6 +22,5 @@ npviOut <- methytmle_cont(sumExp = neuroIQse,
                           clusters = clusterCpGs,
                           outcomeVar = outcomesIQ,
                           targetSites = targetSites,
-                          nullRange = c(-2, 2),
                           numberSites = 5
                          )

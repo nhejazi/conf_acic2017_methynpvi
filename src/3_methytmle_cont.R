@@ -55,6 +55,7 @@ methytmle_cont <- function(sumExp,
   } else if (length(outcomeVar) > 1) {
     # assume actual outcome data if a vector
     outcomeValues <- outcomeVar
+    # NOTE: add r2weight here?
   } else {
     warning("inappropriate value specified for 'outcomeVar' argument")
   }
@@ -83,7 +84,7 @@ methytmle_cont <- function(sumExp,
   sampSize <- length(y)
 
   #=============================================================================
-  # set number of sites to be tested...
+  # set number of sites to be tested...(just pick the first n sites)
   # ============================================================================
   if (is.null(numberSites)) {
     numberSites <- length(targetSites)
@@ -137,9 +138,10 @@ methytmle_cont <- function(sumExp,
          targetSite[nullObs] <- 0
          badSite <- FALSE
        }
-
+     }
 
        # set up CpG-specific matrix for use with TMLE-NPVI
+       #y <- (y - max(y)) / (max(y) - min(y))
        siteDataIn <- as.data.frame(cbind(y, targetSite, nearbySites))
        colnames(siteDataIn) <- c("Y", "X",
                                  paste0("W", 1:(ncol(siteDataIn) - 2)))
